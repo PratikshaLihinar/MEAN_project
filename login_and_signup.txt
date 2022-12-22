@@ -1,0 +1,54 @@
+1.create auth folder
+2.create signup and login component
+3.design it 
+4.register rount in app-routing.module.ts
+   {path: 'login', component: LoginComponent},
+  {path: 'signup', component: SignupComponent}
+5.create menu in header and link to the route
+
+6.Backend start -crate users.js file in routes folder
+  const express = require("express");
+
+const router = express.Router();
+router.post("/signup")
+module.exports =router;
+
+router.post("/signup",(req, res, next)=>{
+
+});
+
+
+7.register it into app.js
+const path = require("path");
+const express = require('express');         //import express
+
+const app = express();                       //execute as a function and return express app
+
+const mongoose = require('mongoose');
+const postsRouters = require('./routes/posts');
+const userRouters = require('./routes/users');
+
+
+app.use("/api/posts",postsRouters);
+app.use("/api/user",userRouters);
+module.exports = app;
+
+
+
+9.create user.js file in models and create userSchema
+const mongoose = require('mongoose');   //import mongoose after installtion >npm install --save  mongoose
+const userSchema = mongoose.Schema({      //make schema for database
+    email: {type: String, required: true, unique: true},  //node js captal s for data type 
+    password: {type: String, required: true}
+});
+
+module.exports =  mongoose.model('User', userSchema);//export module & collection name is posts
+
+
+10. install unique validator - it will provide validation for unique email id (As plugin to the schema which provides extra functionality - add extra hook to the data before save in database)
+	npm i --save mongoose-unique-validator
+11.in user.js model register uniquvalidator 
+
+	const uniqueValidator = require('mongoose-unique-validator');
+12.add plugin to the user.js model
+userSchema.plugin(uniqueValidator);
